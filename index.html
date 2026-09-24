@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generator e-mail potpisa</title>
+<meta name="description" content="Napravi profesionalni HTML potpis za Outlook, Gmail, Apple Mail i Thunderbird. Nekoliko predložaka, kopiraj jednim klikom. Besplatno, u pregledniku.">
+<link rel="icon" href="zajednicko/logo.svg">
+<link rel="stylesheet" href="zajednicko/app-bonic.css">
+<style>
+  .raspored { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 980px) { .raspored { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } .desno { position: sticky; top: 70px; } }
+  .predlosci { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .predlosci button { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--crta); background: var(--plo); cursor: pointer; font-weight: 600; font-size: 13.5px; }
+  .predlosci button[aria-pressed="true"] { border-color: var(--akcent); background: var(--akcent-meko); color: var(--akcent-jak); }
+  .posta { background: #fff; color: #111; border: 1px solid var(--crta); border-radius: 12px; overflow: hidden; }
+  .posta .zaglavlje-poste { background: #f3f4f6; padding: 10px 14px; font: 13px Arial, sans-serif; color: #555; border-bottom: 1px solid #e5e7eb; }
+  .posta .tijelo-poste { padding: 18px 16px 22px; font: 14px Arial, sans-serif; color: #222; overflow-x: auto; }
+  .upute details { border-top: 1px solid var(--crta); padding: 10px 0; }
+  .upute summary { cursor: pointer; font-weight: 600; }
+  .upute ol { margin: 8px 0 0; padding-left: 20px; font-size: 14px; color: var(--blijedo); }
+  .boja-red { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+</style>
+</head>
+<body data-alat="email-potpis">
+<header class="ab-vrh"></header>
+
+<main class="ab-omot">
+  <section class="ab-uvod">
+    <span class="ab-ikona"><span data-ik="mail"></span></span>
+    <div>
+      <h1>Generator e-mail potpisa</h1>
+      <p>Upiši podatke, odaberi izgled i kopiraj potpis u Outlook, Gmail, Apple Mail ili Thunderbird. Potpis je napravljen tablicama s ugrađenim stilovima, pa izgleda jednako u svim programima za e-poštu.</p>
+    </div>
+  </section>
+
+  <div class="raspored">
+    <div class="slog">
+      <section class="kartica">
+        <h2>Osobni podaci</h2>
+        <div class="forma">
+          <div class="polje"><label for="ime">Ime i prezime</label><input id="ime" data-p="ime"></div>
+          <div class="polje"><label for="pozicija">Radno mjesto</label><input id="pozicija" data-p="pozicija"></div>
+          <div class="polje"><label for="tvrtka">Tvrtka / ustanova</label><input id="tvrtka" data-p="tvrtka"></div>
+          <div class="polje"><label for="odjel">Odjel <small>neobavezno</small></label><input id="odjel" data-p="odjel"></div>
+          <div class="polje"><label for="tel">Telefon</label><input id="tel" data-p="tel" type="tel"></div>
+          <div class="polje"><label for="mob">Mobitel</label><input id="mob" data-p="mob" type="tel"></div>
+          <div class="polje"><label for="email">E-mail</label><input id="email" data-p="email" type="email"></div>
+          <div class="polje"><label for="web">Web</label><input id="web" data-p="web" placeholder="www.primjer.hr"></div>
+          <div class="polje puno"><label for="adresa">Adresa</label><input id="adresa" data-p="adresa"></div>
+        </div>
+      </section>
+      <section class="kartica">
+        <h2>Slike i društvene mreže</h2>
+        <div class="forma">
+          <div class="polje puno"><label for="logo">Adresa (URL) loga ili fotografije <small>mora biti javno dostupna slika</small></label><input id="logo" data-p="logo" placeholder="https://www.primjer.hr/logo.png"></div>
+          <div class="polje"><label for="linkedin">LinkedIn</label><input id="linkedin" data-p="linkedin" placeholder="https://linkedin.com/in/…"></div>
+          <div class="polje"><label for="facebook">Facebook</label><input id="facebook" data-p="facebook"></div>
+          <div class="polje"><label for="instagram">Instagram</label><input id="instagram" data-p="instagram"></div>
+          <div class="polje"><label for="x">X / Twitter</label><input id="x" data-p="x"></div>
+        </div>
+        <p class="napomena" style="margin-top:10px">Gmail i Outlook ne prikazuju slike ugrađene u potpis, zato logo mora biti na nekoj web adresi (npr. na tvojoj stranici). Desni klik na logo na stranici → „Kopiraj adresu slike”.</p>
+      </section>
+      <section class="kartica">
+        <h2>Dodatno</h2>
+        <div class="slog" style="gap:12px">
+          <label class="boja-red"><input type="color" data-p="boja" id="boja"><span>Boja naglaska</span></label>
+          <div class="polje"><label for="poruka">Kratka poruka ispod potpisa <small>neobavezno</small></label><input id="poruka" data-p="poruka" placeholder="Molimo, razmislite o okolišu prije ispisa ove poruke."></div>
+          <label class="kvacica"><input type="checkbox" id="napomena" data-p="napomena"><span>Dodaj napomenu o povjerljivosti</span></label>
+          <textarea id="napomenaTekst" data-p="napomenaTekst" rows="4" style="min-height:90px"></textarea>
+        </div>
+      </section>
+    </div>
+
+    <div class="slog desno">
+      <section class="kartica">
+        <div class="predlosci" id="predlosci">
+          <button type="button" data-predlozak="klasicni">Klasični</button>
+          <button type="button" data-predlozak="traka">S okomitom crtom</button>
+          <button type="button" data-predlozak="kompaktni">Kompaktni</button>
+          <button type="button" data-predlozak="logo">Logo gore</button>
+        </div>
+        <div class="posta">
+          <div class="zaglavlje-poste">Nova poruka</div>
+          <div class="tijelo-poste"><p style="margin:0 0 16px">Lijep pozdrav,</p><div id="potpis"></div></div>
+        </div>
+        <div class="gumbi" style="margin-top:14px">
+          <button type="button" class="gumb glavni veliki" id="kopirajPotpis"><span data-ik="kopiraj"></span>Kopiraj potpis</button>
+          <button type="button" class="gumb" id="kopirajHtml"><span data-ik="kopiraj"></span>HTML kod</button>
+          <button type="button" class="gumb" id="preuzmi"><span data-ik="preuzmi"></span>.htm datoteka</button>
+        </div>
+      </section>
+      <section class="kartica upute">
+        <h2>Kako ga dodati</h2>
+        <details open><summary>Gmail</summary><ol><li>Klikni „Kopiraj potpis”.</li><li>Gmail → zupčanik → Pogledaj sve postavke → Općenito → Potpis → Izradi novi.</li><li>Zalijepi (Ctrl+V) u polje i klikni „Spremi promjene” na dnu stranice.</li></ol></details>
+        <details><summary>Outlook (novi i web)</summary><ol><li>Klikni „Kopiraj potpis”.</li><li>Postavke → Račun → Potpisi → Novi potpis.</li><li>Zalijepi, spremi i odaberi ga kao zadani za nove poruke i odgovore.</li></ol></details>
+        <details><summary>Outlook (klasični, Windows)</summary><ol><li>Klikni „Kopiraj potpis”.</li><li>Datoteka → Mogućnosti → Pošta → Potpisi → Novo.</li><li>Zalijepi u uređivač i klikni U redu. Ako se oblikovanje izgubi, preuzmi .htm datoteku i spremi je u mapu <span class="mono">%APPDATA%\Microsoft\Signatures</span>.</li></ol></details>
+        <details><summary>Apple Mail</summary><ol><li>Mail → Postavke → Potpisi → + (novi potpis).</li><li>Isključi „Uvijek koristi moj zadani font poruke” i zalijepi potpis.</li></ol></details>
+        <details><summary>Thunderbird</summary><ol><li>Preuzmi .htm datoteku.</li><li>Postavke računa → označi „Umjesto toga priloži potpis iz datoteke” i odaberi preuzetu datoteku.</li></ol></details>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="ab-dno"></footer>
+<script src="zajednicko/app-bonic.js"></script>
+<script>
+'use strict';
+const { $, $$, esc, obavijest, spremi, kopiraj, lokalno } = AB;
+const KLJUC = 'email-potpis';
+const NAPOMENA = 'Ova poruka i prilozi mogu sadržavati povjerljive informacije namijenjene isključivo primatelju. Ako ste je primili greškom, molimo obavijestite pošiljatelja i izbrišite poruku. Neovlašteno korištenje, kopiranje ili prosljeđivanje nije dopušteno.';
+let S = { ime: 'Ana Kovač', pozicija: 'Voditeljica projekata', tvrtka: 'Primjer d.o.o.', odjel: '', tel: '+385 1 234 5678', mob: '+385 91 234 5678', email: 'ana.kovac@primjer.hr', web: 'www.primjer.hr', adresa: 'Ilica 1, 10000 Zagreb', logo: '', linkedin: '', facebook: '', instagram: '', x: '', boja: '#3b5bfd', poruka: '', napomena: false, napomenaTekst: NAPOMENA, predlozak: 'klasicni', ...lokalno.uzmi(KLJUC, {}) };
+
+const F = 'font-family:Arial,Helvetica,sans-serif;';
+const url = u => { u = String(u || '').trim(); return !u ? '' : /^(https?:|mailto:|tel:)/i.test(u) ? u : 'https://' + u; };
+const tel = t => 'tel:' + String(t).replace(/[^\d+]/g, '');
+const a = (href, t, boja = S.boja) => `<a href="${esc(href)}" style="color:${boja};text-decoration:none;">${esc(t)}</a>`;
+function redoviKontakta(sep = '<br>') {
+  const r = [];
+  if (S.tel) r.push(`<span style="color:#6b7280;">T</span>&nbsp;${a(tel(S.tel), S.tel, '#374151')}`);
+  if (S.mob) r.push(`<span style="color:#6b7280;">M</span>&nbsp;${a(tel(S.mob), S.mob, '#374151')}`);
+  if (S.email) r.push(`<span style="color:#6b7280;">E</span>&nbsp;${a('mailto:' + S.email.trim(), S.email.trim(), '#374151')}`);
+  if (S.web) r.push(`<span style="color:#6b7280;">W</span>&nbsp;${a(url(S.web), S.web.replace(/^https?:\/\//, ''), S.boja)}`);
+  return r.join(sep);
+}
+function mreze() {
+  const m = [['LinkedIn', S.linkedin], ['Facebook', S.facebook], ['Instagram', S.instagram], ['X', S.x]].filter(([, v]) => v && v.trim());
+  return m.length ? m.map(([n, v]) => `<a href="${esc(url(v))}" style="color:${S.boja};text-decoration:none;font-weight:bold;">${n}</a>`).join('&nbsp;&nbsp;·&nbsp;&nbsp;') : '';
+}
+const slika = (sirina, stil = '') => S.logo ? `<img src="${esc(url(S.logo))}" alt="${esc(S.tvrtka || S.ime)}" width="${sirina}" style="display:block;border:0;max-width:${sirina}px;height:auto;${stil}">` : '';
+function dodatak() {
+  let h = '';
+  if (S.poruka) h += `<p style="${F}font-size:11px;color:#16a34a;margin:12px 0 0;">${esc(S.poruka)}</p>`;
+  if (S.napomena && S.napomenaTekst) h += `<p style="${F}font-size:10px;line-height:1.4;color:#9ca3af;margin:10px 0 0;max-width:520px;">${esc(S.napomenaTekst)}</p>`;
+  return h;
+}
+const firma = () => [S.odjel, S.tvrtka].filter(Boolean).map(esc).join(' · ');
+
+const PREDLOSCI = {
+  klasicni: () => `<table cellpadding="0" cellspacing="0" border="0" style="${F}font-size:13px;line-height:1.5;color:#374151;border-collapse:collapse;"><tr>
+    ${S.logo ? `<td style="padding:0 16px 0 0;vertical-align:top;">${slika(90)}</td>` : ''}
+    <td style="vertical-align:top;">
+      <div style="font-size:16px;font-weight:bold;color:#111827;">${esc(S.ime)}</div>
+      ${S.pozicija ? `<div style="color:${S.boja};font-weight:bold;">${esc(S.pozicija)}</div>` : ''}
+      ${firma() ? `<div style="color:#6b7280;">${firma()}</div>` : ''}
+      <div style="border-top:2px solid ${S.boja};width:40px;margin:8px 0;line-height:0;font-size:0;">&nbsp;</div>
+      <div>${redoviKontakta()}</div>
+      ${S.adresa ? `<div style="color:#6b7280;">${esc(S.adresa)}</div>` : ''}
+      ${mreze() ? `<div style="margin-top:6px;">${mreze()}</div>` : ''}
+    </td></tr></table>${dodatak()}`,
+  traka: () => `<table cellpadding="0" cellspacing="0" border="0" style="${F}font-size:13px;line-height:1.5;color:#374151;border-collapse:collapse;"><tr>
+    ${S.logo ? `<td style="padding:0 14px 0 0;vertical-align:middle;">${slika(80)}</td>` : ''}
+    <td style="border-left:3px solid ${S.boja};padding:2px 0 2px 14px;vertical-align:top;">
+      <div style="font-size:16px;font-weight:bold;color:#111827;">${esc(S.ime)}</div>
+      <div style="color:#6b7280;">${[S.pozicija, S.tvrtka].filter(Boolean).map(esc).join(' | ')}</div>
+      <div style="margin-top:6px;">${redoviKontakta('&nbsp;&nbsp;')}</div>
+      ${S.adresa ? `<div style="color:#6b7280;">${esc(S.adresa)}</div>` : ''}
+      ${mreze() ? `<div style="margin-top:4px;">${mreze()}</div>` : ''}
+    </td></tr></table>${dodatak()}`,
+  kompaktni: () => `<div style="${F}font-size:12.5px;line-height:1.5;color:#374151;">
+      <span style="font-size:14px;font-weight:bold;color:#111827;">${esc(S.ime)}</span>${S.pozicija ? `<span style="color:#9ca3af;"> &nbsp;|&nbsp; </span><span style="color:${S.boja};">${esc(S.pozicija)}</span>` : ''}${S.tvrtka ? `<span style="color:#9ca3af;"> &nbsp;|&nbsp; </span>${esc(S.tvrtka)}` : ''}<br>
+      ${redoviKontakta('&nbsp;&nbsp;·&nbsp;&nbsp;')}${mreze() ? `<br>${mreze()}` : ''}
+    </div>${dodatak()}`,
+  logo: () => `<table cellpadding="0" cellspacing="0" border="0" style="${F}font-size:13px;line-height:1.5;color:#374151;border-collapse:collapse;">
+      ${S.logo ? `<tr><td style="padding:0 0 10px;">${slika(140)}</td></tr>` : ''}
+      <tr><td style="border-top:1px solid #e5e7eb;padding-top:10px;">
+        <div style="font-size:16px;font-weight:bold;color:#111827;">${esc(S.ime)}</div>
+        ${S.pozicija ? `<div style="color:${S.boja};">${esc(S.pozicija)}</div>` : ''}
+        ${firma() ? `<div style="color:#6b7280;margin-bottom:6px;">${firma()}</div>` : ''}
+        <div>${redoviKontakta()}</div>
+        ${S.adresa ? `<div style="color:#6b7280;">${esc(S.adresa)}</div>` : ''}
+        ${mreze() ? `<div style="margin-top:6px;">${mreze()}</div>` : ''}
+      </td></tr></table>${dodatak()}`,
+};
+const html = () => (PREDLOSCI[S.predlozak] || PREDLOSCI.klasicni)().replace(/\n\s*/g, '');
+
+function nacrtaj() {
+  lokalno.stavi(KLJUC, S);
+  $('#potpis').innerHTML = html();
+  $('#napomenaTekst').hidden = !S.napomena;
+  $$('#predlosci [data-predlozak]').forEach(b => b.setAttribute('aria-pressed', b.dataset.predlozak === S.predlozak));
+}
+$$('[data-p]').forEach(el => { if (el.type === 'checkbox') el.checked = !!S[el.dataset.p]; else el.value = S[el.dataset.p] ?? ''; });
+document.addEventListener('input', e => { const k = e.target.dataset?.p; if (!k) return; S[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; nacrtaj(); });
+$('#predlosci').addEventListener('click', e => { const b = e.target.closest('[data-predlozak]'); if (b) { S.predlozak = b.dataset.predlozak; nacrtaj(); } });
+
+$('#kopirajPotpis').onclick = async () => {
+  const h = html(), tekst = $('#potpis').innerText;
+  try {
+    await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([h], { type: 'text/html' }), 'text/plain': new Blob([tekst], { type: 'text/plain' }) })]);
+    obavijest('Potpis je kopiran — zalijepi ga u postavke potpisa.');
+  } catch {
+    // stariji preglednici: označi prikaz i kopiraj
+    const r = document.createRange(); r.selectNodeContents($('#potpis'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    document.execCommand('copy'); s.removeAllRanges();
+    obavijest('Potpis je kopiran.');
+  }
+};
+$('#kopirajHtml').onclick = () => kopiraj(html(), 'HTML kod je kopiran.');
+$('#preuzmi').onclick = () => spremi(new Blob([`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Potpis</title></head><body>${html()}</body></html>`], { type: 'text/html;charset=utf-8' }), 'potpis.htm');
+nacrtaj();
+</script>
+</body>
+</html>
