@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Generator e-mail potpisa</title>
 <meta name="description" content="Napravi profesionalni HTML potpis za Outlook, Gmail, Apple Mail i Thunderbird. Nekoliko predložaka, kopiraj jednim klikom. Besplatno, u pregledniku.">
-<link rel="icon" href="zajednicko/logo.svg">
+<link rel="icon" href="zajednicko/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="zajednicko/apple-touch-icon.png">
 <link rel="stylesheet" href="zajednicko/app-bonic.css">
 <style>
   .raspored { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
   @media (min-width: 980px) { .raspored { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } .desno { position: sticky; top: 70px; } }
   .predlosci { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-  .predlosci button { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--crta); background: var(--plo); cursor: pointer; font-weight: 600; font-size: 13.5px; }
-  .predlosci button[aria-pressed="true"] { border-color: var(--akcent); background: var(--akcent-meko); color: var(--akcent-jak); }
+  .predlosci button { padding: 7px 14px; border-radius: 8px; border: 2px solid rgb(22 48 92 / .15); background: #fff; color: var(--plava); cursor: pointer; font-weight: 800; font-size: 14px; }
+  .predlosci button[aria-pressed="true"] { border-color: var(--plava); background: var(--plava); color: #fff; }
   .posta { background: #fff; color: #111; border: 1px solid var(--crta); border-radius: 12px; overflow: hidden; }
   .posta .zaglavlje-poste { background: #f3f4f6; padding: 10px 14px; font: 13px Arial, sans-serif; color: #555; border-bottom: 1px solid #e5e7eb; }
   .posta .tijelo-poste { padding: 18px 16px 22px; font: 14px Arial, sans-serif; color: #222; overflow-x: auto; }
@@ -109,7 +110,7 @@
 const { $, $$, esc, obavijest, spremi, kopiraj, lokalno } = AB;
 const KLJUC = 'email-potpis';
 const NAPOMENA = 'Ova poruka i prilozi mogu sadržavati povjerljive informacije namijenjene isključivo primatelju. Ako ste je primili greškom, molimo obavijestite pošiljatelja i izbrišite poruku. Neovlašteno korištenje, kopiranje ili prosljeđivanje nije dopušteno.';
-let S = { ime: 'Ana Kovač', pozicija: 'Voditeljica projekata', tvrtka: 'Primjer d.o.o.', odjel: '', tel: '+385 1 234 5678', mob: '+385 91 234 5678', email: 'ana.kovac@primjer.hr', web: 'www.primjer.hr', adresa: 'Ilica 1, 10000 Zagreb', logo: '', linkedin: '', facebook: '', instagram: '', x: '', boja: '#3b5bfd', poruka: '', napomena: false, napomenaTekst: NAPOMENA, predlozak: 'klasicni', ...lokalno.uzmi(KLJUC, {}) };
+let S = { ime: 'Ana Kovač', pozicija: 'Voditeljica projekata', tvrtka: 'Primjer d.o.o.', odjel: '', tel: '+385 1 234 5678', mob: '+385 91 234 5678', email: 'ana.kovac@primjer.hr', web: 'www.primjer.hr', adresa: 'Ilica 1, 10000 Zagreb', logo: '', linkedin: '', facebook: '', instagram: '', x: '', boja: '#16305c', poruka: '', napomena: false, napomenaTekst: NAPOMENA, predlozak: 'klasicni', ...lokalno.uzmi(KLJUC, {}) };
 
 const F = 'font-family:Arial,Helvetica,sans-serif;';
 const url = u => { u = String(u || '').trim(); return !u ? '' : /^(https?:|mailto:|tel:)/i.test(u) ? u : 'https://' + u; };
